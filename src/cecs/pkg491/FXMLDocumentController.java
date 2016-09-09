@@ -6,18 +6,12 @@
 package cecs.pkg491;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.control.ComboBox;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.collections.*;
+import javafx.fxml.*;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+
 
 /**
  *
@@ -26,13 +20,15 @@ import javafx.scene.layout.VBox;
 public class FXMLDocumentController extends AnchorPane{
 
     private final String fileName = "spreadSheet.xls";
-    private ObservableList<String> firstNames = FXCollections.observableArrayList();
-    private ObservableList<String> lastNames = FXCollections.observableArrayList();
-    private ObservableList<String> practices = FXCollections.observableArrayList();
+    private ObservableList<String> people = FXCollections.observableArrayList();
     private ObservableList<String> sorter = FXCollections.observableArrayList();
 
     @FXML private ComboBox sortBy;
-    @FXML private ComboBox values;
+    @FXML private ComboBox filter;
+    @FXML private TableView table;
+    @FXML private ImageView maps;
+    @FXML private Button searchButton;
+    
 
     public FXMLDocumentController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
@@ -61,7 +57,27 @@ public class FXMLDocumentController extends AnchorPane{
     }
 
     public void initializeLists(String name, ObservableList<String> list) {
-
+        
     }
-
+    
+    public void initializeTable(){
+        
+    }
+    
+    public void search(){
+        
+    }
+    
+    public void sort(){
+        
+    }
+    
+    private void updateMap(){
+        
+    }
+    
+    @FXML private void sortByChanged(){
+        String selectedItem = (String)sortBy.getSelectionModel().getSelectedItem();
+        
+    } 
 }

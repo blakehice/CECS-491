@@ -10,10 +10,10 @@
 
 <fx:root prefWidth="975.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-          <ComboBox fx:id="sortBy" layoutX="15.0" layoutY="70.0" prefHeight="25.0" prefWidth="218.0" />
+          <ComboBox fx:id="sortBy" layoutX="15.0" layoutY="70.0" onAction="#sortByChanged" prefHeight="25.0" prefWidth="218.0" />
           <Label layoutX="16.0" layoutY="29.0" text="Sort By" />
-          <ComboBox fx:id="values" layoutX="15.0" layoutY="199.0" prefHeight="25.0" prefWidth="218.0" />
-          <Label layoutX="17.0" layoutY="165.0" text="Values" />
+          <ComboBox fx:id="filter" layoutX="15.0" layoutY="199.0" prefHeight="25.0" prefWidth="218.0" />
+          <Label layoutX="17.0" layoutY="165.0" text="Filter" />
           <ImageView fx:id="maps" fitHeight="264.0" fitWidth="445.0" layoutX="421.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
           <Label layoutX="421.0" layoutY="29.0" prefHeight="17.0" prefWidth="122.0" text="Location" AnchorPane.leftAnchor="421.0" AnchorPane.rightAnchor="432.0" />
           <Button fx:id="searchButton" layoutX="47.0" layoutY="310.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="Search" />
