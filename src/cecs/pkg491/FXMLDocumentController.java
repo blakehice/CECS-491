@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -28,6 +29,7 @@ public class FXMLDocumentController extends AnchorPane {
     private ObservableList<String> firstNames = FXCollections.observableArrayList();
     private ObservableList<String> lastNames = FXCollections.observableArrayList();
     private ObservableList<String> practices = FXCollections.observableArrayList();
+    private ObservableList<String> phones = FXCollections.observableArrayList();
     private ObservableList<String> emails = FXCollections.observableArrayList();
     private ObservableList<String> addresses = FXCollections.observableArrayList();
 
@@ -57,7 +59,13 @@ public class FXMLDocumentController extends AnchorPane {
 
     //load spreadsheet gather all info from it and pass it to variables
     public void init() {
+        try{
         readSpreadSheet();
+        }catch(Exception e){
+            System.out.println("error reading spread sheet");
+            e.printStackTrace();
+        }
+        
         initializeChoices();
 
         initializeSorter(sorter);
@@ -108,28 +116,56 @@ public class FXMLDocumentController extends AnchorPane {
         choices.put("First Name", firstNames);
         choices.put("Last Name", lastNames);
         choices.put("Practice", practices);
+        choices.put("Phones", phones);
         choices.put("Email", emails);
         choices.put("Address", addresses);
     }
 
-    private void openSpreadSheet() {
+    private void readSpreadSheet() throws Exception {
         String fileName = "test.xlsx";
-        
-        try {
-            FileInputStream inputStream = new FileInputStream(new File(fileName));
-            Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet firstSheet = workbook.getSheetAt(0);
-            Iterator<Row> iterator = firstSheet.iterator();
-        } catch (Exception ex) {
+
+        FileInputStream inputStream = new FileInputStream(new File(fileName));
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        Sheet firstSheet = workbook.getSheetAt(0);
+        Iterator<Row> rowIterator = firstSheet.iterator();
+
+        while (rowIterator.hasNext()) {
+            System.out.println("1");
+            Row nextRow = rowIterator.next();
+            Iterator<Cell> cellIterator = nextRow.cellIterator();
+            
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                switch (cell.getColumnIndex()) {
+                    
+                    //validate to make sure no repeated values
+                    case 0:
+                        firstNames.add(cell.getStringCellValue());
+                        break;
+                    case 1:
+                        lastNames.add(cell.getStringCellValue());
+                        break;
+                    case 2:
+                        practices.add(cell.getStringCellValue());
+                        break;
+                    case 3:
+                        phones.add(Double.toString(cell.getNumericCellValue()));
+                        break;
+                    case 4:
+                        emails.add(cell.getStringCellValue());
+                        break;
+                    case 5:
+                        addresses.add(cell.getStringCellValue());
+                        break;
+                    default:
+                        System.out.println("error");
+                        break;
+                }
+            }
 
         }
-
-    }
-
-    private void readSpreadSheet() {
-        
-        String line = "", fname, lname, practice, email, address;
-
+        workbook.close();
+        inputStream.close();
     }
 
     @FXML
