@@ -21,6 +21,15 @@ public class Person {
         this.phone = phone;
     }
     
+     public Person(String fname, String lname, String practice, String phone, String email, String address){
+        this.fname = fname;
+        this.lname = lname;
+        this.practice = practice;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+    }
+    
     
     public String getFirstName(){
         return fname;

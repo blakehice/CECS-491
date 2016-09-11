@@ -16,7 +16,7 @@
           <Label layoutX="17.0" layoutY="165.0" text="Filter" />
           <ImageView fx:id="maps" fitHeight="264.0" fitWidth="445.0" layoutX="421.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" />
           <Label layoutX="421.0" layoutY="29.0" prefHeight="17.0" prefWidth="122.0" text="Location" AnchorPane.leftAnchor="421.0" AnchorPane.rightAnchor="432.0" />
-          <Button fx:id="searchButton" layoutX="47.0" layoutY="310.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="155.0" text="Search" />
+          <Button fx:id="searchButton" layoutX="47.0" layoutY="310.0" mnemonicParsing="false" onAction="#buttonClick" prefHeight="25.0" prefWidth="155.0" text="Search" />
           <TableView fx:id="table" layoutY="420.0" prefHeight="281.0" prefWidth="975.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="420.0">
               <columns>
                   <TableColumn fx:id="firstNameCol" prefWidth="75.0" text="First Name" />

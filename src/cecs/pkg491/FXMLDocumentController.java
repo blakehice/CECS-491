@@ -24,7 +24,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class FXMLDocumentController extends AnchorPane {
 
-    private ObservableList<String> people = FXCollections.observableArrayList();
+    private ObservableList<Person> people = FXCollections.observableArrayList();
     private ObservableList<String> sorter = FXCollections.observableArrayList();
     private ObservableList<String> firstNames = FXCollections.observableArrayList();
     private ObservableList<String> lastNames = FXCollections.observableArrayList();
@@ -32,6 +32,7 @@ public class FXMLDocumentController extends AnchorPane {
     private ObservableList<String> phones = FXCollections.observableArrayList();
     private ObservableList<String> emails = FXCollections.observableArrayList();
     private ObservableList<String> addresses = FXCollections.observableArrayList();
+    private ObservableList<Row> rows = FXCollections.observableArrayList();
 
     private HashMap choices;
     @FXML
@@ -59,13 +60,13 @@ public class FXMLDocumentController extends AnchorPane {
 
     //load spreadsheet gather all info from it and pass it to variables
     public void init() {
-        try{
-        readSpreadSheet();
-        }catch(Exception e){
+        try {
+            readSpreadSheet();
+        } catch (Exception e) {
             System.out.println("error reading spread sheet");
             e.printStackTrace();
         }
-        
+
         initializeChoices();
 
         initializeSorter(sorter);
@@ -90,7 +91,21 @@ public class FXMLDocumentController extends AnchorPane {
     }
 
     public void updateTable() {
-
+       int selectedIndex = sortBy.getSelectionModel().getSelectedIndex();
+       String filterItem = (String)filter.getSelectionModel().getSelectedItem();
+       Iterator<Row> rowIter = rows.iterator();
+       
+       Iterator<Cell> cellIterator;
+       while(rowIter.hasNext()){
+           Row nextRow = rowIter.next();
+           Iterator<Cell> cellIter = nextRow.cellIterator();
+           while(cellIter.hasNext()){
+               if(cellIter.next().getStringCellValue().equals(filterItem)){
+                   table.setItems(nextRow);
+                   
+               }
+           }
+       }
     }
 
     public void sort() {
@@ -107,6 +122,7 @@ public class FXMLDocumentController extends AnchorPane {
             Map.Entry item = (Map.Entry) i.next();
             if (selected.equals(item.getKey())) {
                 filter.setItems((ObservableList) item.getValue());
+                
             }
         }
     }
@@ -119,6 +135,7 @@ public class FXMLDocumentController extends AnchorPane {
         choices.put("Phones", phones);
         choices.put("Email", emails);
         choices.put("Address", addresses);
+        
     }
 
     private void readSpreadSheet() throws Exception {
@@ -128,34 +145,51 @@ public class FXMLDocumentController extends AnchorPane {
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> rowIterator = firstSheet.iterator();
-
+        String fname, lname, prac,phone,email,address;
         while (rowIterator.hasNext()) {
-            System.out.println("1");
             Row nextRow = rowIterator.next();
             Iterator<Cell> cellIterator = nextRow.cellIterator();
-            
+            rows.add(nextRow);
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 switch (cell.getColumnIndex()) {
-                    
+
                     //validate to make sure no repeated values
                     case 0:
-                        firstNames.add(cell.getStringCellValue());
+                        if (!firstNames.contains(cell.getStringCellValue())) {
+                            fname = cell.getStringCellValue();
+                             firstNames.add(fname);
+                        }
                         break;
                     case 1:
-                        lastNames.add(cell.getStringCellValue());
+                        if (!lastNames.contains(cell.getStringCellValue())) {
+                            lname = cell.getStringCellValue();
+                            lastNames.add(lname);
+                        }
                         break;
                     case 2:
-                        practices.add(cell.getStringCellValue());
+                        if (!practices.contains(cell.getStringCellValue())) {
+                            prac = cell.getStringCellValue();
+                            practices.add(prac);
+                        }
                         break;
                     case 3:
-                        phones.add(Double.toString(cell.getNumericCellValue()));
+                        if (!phones.contains(cell.getStringCellValue())) {
+                            phone =cell.getStringCellValue();
+                            phones.add(phone); 
+                        }
                         break;
                     case 4:
-                        emails.add(cell.getStringCellValue());
+                        if (!emails.contains(cell.getStringCellValue())) {
+                            email = cell.getStringCellValue();
+                            emails.add(email);
+                        }
                         break;
                     case 5:
-                        addresses.add(cell.getStringCellValue());
+                        if (!addresses.contains(cell.getStringCellValue())) {
+                            address = cell.getStringCellValue();
+                            addresses.add(address);
+                        }
                         break;
                     default:
                         System.out.println("error");
@@ -173,5 +207,10 @@ public class FXMLDocumentController extends AnchorPane {
         String selectedItem = (String) sortBy.getSelectionModel().getSelectedItem();
         updateFilter(selectedItem);
 
+    }
+
+    @FXML
+    private void buttonClick() {
+        updateTable();
     }
 }
