@@ -5,52 +5,72 @@
  */
 package cecs.pkg491;
 
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author blake
  */
 public class Person {
-    
-    private final String fname, lname;
-    private String practice, phone, email, address;
-    
-    public Person(String fname, String lname, String practice, String phone){
-        this.fname = fname;
-        this.lname = lname;
-        this.practice = practice;
-        this.phone = phone;
+
+    private final SimpleStringProperty fname, lname;
+    private SimpleStringProperty practice, phone, email, address;
+
+    public Person(String fname, String lname, String practice, String phone) {
+        this.fname = new SimpleStringProperty(fname);
+        this.lname = new SimpleStringProperty(lname);
+        this.practice = new SimpleStringProperty(practice);
+        this.phone = new SimpleStringProperty(phone);
     }
-    
-    
-    public String getFirstName(){
-        return fname;
+
+    public Person(String fname, String lname, String practice, String phone, String email, String address) {
+        this.fname = new SimpleStringProperty(fname);
+        this.lname = new SimpleStringProperty(lname);
+        this.practice = new SimpleStringProperty(practice);
+        this.phone = new SimpleStringProperty(phone);
+        this.email = new SimpleStringProperty(email);
+        this.address = new SimpleStringProperty(address);
+
     }
-    
-    public String getLastName(){
-        return lname;
+
+    public String getFirstName() {
+        return fname.get();
     }
-    
-    public String getPractice(){
-        return practice;
+
+    public String getLastName() {
+        return lname.get();
     }
-    
-    public String getEmail(){
-     return email;   
+
+    public String getPractice() {
+        return practice.get();
     }
-    
-    public String getAddress(){
-        return address;
+
+    public String getEmail() {
+        return email.get();
     }
-    
-    public void setPractice(String practice){
-        this.practice = practice;
+
+    public String getPhone() {
+        return phone.get();
     }
-    
-    public void setPhone(String phone){
-        this.phone = phone;
+
+    public String getAddress() {
+        return address.get();
     }
-    
-    public void setAddress(String address){
-        this.address = address;
+
+    public void setPractice(String practice) {
+        this.practice = new SimpleStringProperty(practice);
+    }
+
+    public void setPhone(String phone) {
+        this.phone = new SimpleStringProperty(phone);
+    }
+
+    public void setAddress(String address) {
+        this.address = new SimpleStringProperty(address);
+    }
+
+    public String toString() {
+        return fname + " " + lname + " " + practice + " " + phone + " "
+                + email + " " + address;
     }
 }

@@ -10,8 +10,10 @@ import java.util.*;
 import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import org.apache.poi.ss.formula.functions.Columns;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -24,7 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class FXMLDocumentController extends AnchorPane {
 
-    private ObservableList<String> people = FXCollections.observableArrayList();
+    private ObservableList<Person> people = FXCollections.observableArrayList();
     private ObservableList<String> sorter = FXCollections.observableArrayList();
     private ObservableList<String> firstNames = FXCollections.observableArrayList();
     private ObservableList<String> lastNames = FXCollections.observableArrayList();
@@ -32,6 +34,7 @@ public class FXMLDocumentController extends AnchorPane {
     private ObservableList<String> phones = FXCollections.observableArrayList();
     private ObservableList<String> emails = FXCollections.observableArrayList();
     private ObservableList<String> addresses = FXCollections.observableArrayList();
+    private ObservableList<Person> filteredPeople = FXCollections.observableArrayList();
 
     private HashMap choices;
     @FXML
@@ -44,6 +47,20 @@ public class FXMLDocumentController extends AnchorPane {
     private ImageView maps;
     @FXML
     private Button searchButton;
+    @FXML
+    private TableColumn firstNameCol;
+    @FXML
+    private TableColumn lastNameCol;
+    @FXML
+    private TableColumn practiceCol;
+    @FXML
+    private TableColumn phoneCol;
+    @FXML
+    private TableColumn emailCol;
+    @FXML
+    private TableColumn addressCol;
+    
+    
 
     public FXMLDocumentController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
@@ -59,13 +76,13 @@ public class FXMLDocumentController extends AnchorPane {
 
     //load spreadsheet gather all info from it and pass it to variables
     public void init() {
-        try{
-        readSpreadSheet();
-        }catch(Exception e){
+        try {
+            readSpreadSheet();
+        } catch (Exception e) {
             System.out.println("error reading spread sheet");
             e.printStackTrace();
         }
-        
+        initializeTable();
         initializeChoices();
 
         initializeSorter(sorter);
@@ -86,10 +103,65 @@ public class FXMLDocumentController extends AnchorPane {
     }
 
     public void initializeTable() {
-
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Person,String>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Person,String>("lastName"));
+        practiceCol.setCellValueFactory(new PropertyValueFactory<Person,String>("practice"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<Person,String>("phone"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<Person,String>("email"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<Person,String>("address"));
+        
+        table.setItems(people);
     }
-
+    
+    public void resetTable(){
+        filteredPeople.clear();
+    }
+    
     public void updateTable() {
+        resetTable();
+        
+        int selectedIndex = sortBy.getSelectionModel().getSelectedIndex();
+        String filterItem = (String) filter.getSelectionModel().getSelectedItem();
+
+        switch (selectedIndex) {
+            case 0:
+                for (int i = 0; i < people.size(); i++) {
+                    if (people.get(i).getFirstName().equals(filterItem)) {
+                        filteredPeople.add(people.get(i));
+                    }
+                }
+                break;
+            case 1:
+                for (int i = 0; i < people.size(); i++) {
+                    if (people.get(i).getLastName().equals(filterItem)) {
+                        filteredPeople.add(people.get(i));
+                    }
+                }
+                break;
+            case 2:
+                for (int i = 0; i < people.size(); i++) {
+                    if (people.get(i).getPractice().equals(filterItem)) {
+                        filteredPeople.add(people.get(i));
+                    }
+                }
+                break;
+            case 3:
+                for (int i = 0; i < people.size(); i++) {
+                    if (people.get(i).getEmail().equals(filterItem)) {
+                        filteredPeople.add(people.get(i));
+                    }
+                }
+                break;
+            case 4:
+                for (int i = 0; i < people.size(); i++) {
+                    if (people.get(i).getAddress().equals(filterItem)) {
+                        filteredPeople.add(people.get(i));
+                    }
+                }
+                break;
+        }
+        table.setItems(filteredPeople);
+        //System.out.println("fp " + filteredPeople.get(0));
 
     }
 
@@ -107,6 +179,7 @@ public class FXMLDocumentController extends AnchorPane {
             Map.Entry item = (Map.Entry) i.next();
             if (selected.equals(item.getKey())) {
                 filter.setItems((ObservableList) item.getValue());
+
             }
         }
     }
@@ -119,6 +192,7 @@ public class FXMLDocumentController extends AnchorPane {
         choices.put("Phones", phones);
         choices.put("Email", emails);
         choices.put("Address", addresses);
+
     }
 
     private void readSpreadSheet() throws Exception {
@@ -128,40 +202,55 @@ public class FXMLDocumentController extends AnchorPane {
         Workbook workbook = new XSSFWorkbook(inputStream);
         Sheet firstSheet = workbook.getSheetAt(0);
         Iterator<Row> rowIterator = firstSheet.iterator();
-
+        String fname = "", lname = "", prac = "", phone = "", email = "", address = "";
         while (rowIterator.hasNext()) {
-            System.out.println("1");
             Row nextRow = rowIterator.next();
             Iterator<Cell> cellIterator = nextRow.cellIterator();
-            
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 switch (cell.getColumnIndex()) {
-                    
-                    //validate to make sure no repeated values
                     case 0:
-                        firstNames.add(cell.getStringCellValue());
+                        fname = cell.getStringCellValue();
+                        if (!firstNames.contains(cell.getStringCellValue())) {
+                            firstNames.add(fname);
+                        }
                         break;
                     case 1:
-                        lastNames.add(cell.getStringCellValue());
+                        lname = cell.getStringCellValue();
+                        if (!lastNames.contains(cell.getStringCellValue())) {
+                            lastNames.add(lname);
+                        }
                         break;
                     case 2:
-                        practices.add(cell.getStringCellValue());
+                        prac = cell.getStringCellValue();
+                        if (!practices.contains(cell.getStringCellValue())) {
+                            practices.add(prac);
+                        }
                         break;
                     case 3:
-                        phones.add(Double.toString(cell.getNumericCellValue()));
+                        phone = cell.getStringCellValue();
+                        if (!phones.contains(cell.getStringCellValue())) {
+                            phones.add(phone);
+                        }
                         break;
                     case 4:
-                        emails.add(cell.getStringCellValue());
+                        email = cell.getStringCellValue();
+                        if (!emails.contains(cell.getStringCellValue())) {
+                            emails.add(email);
+                        }
                         break;
                     case 5:
-                        addresses.add(cell.getStringCellValue());
+                        address = cell.getStringCellValue();
+                        if (!addresses.contains(cell.getStringCellValue())) {
+                            addresses.add(address);
+                        }
                         break;
                     default:
                         System.out.println("error");
                         break;
                 }
             }
+            people.add(new Person(fname, lname, prac, phone, email, address));
 
         }
         workbook.close();
@@ -173,5 +262,10 @@ public class FXMLDocumentController extends AnchorPane {
         String selectedItem = (String) sortBy.getSelectionModel().getSelectedItem();
         updateFilter(selectedItem);
 
+    }
+
+    @FXML
+    private void buttonClick() {
+        updateTable();
     }
 }
