@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import org.apache.poi.ss.formula.functions.Columns;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -111,8 +112,14 @@ public class FXMLDocumentController extends AnchorPane {
         
         table.setItems(people);
     }
-
+    
+    public void resetTable(){
+        filteredPeople.clear();
+    }
+    
     public void updateTable() {
+        resetTable();
+        
         int selectedIndex = sortBy.getSelectionModel().getSelectedIndex();
         String filterItem = (String) filter.getSelectionModel().getSelectedItem();
 
@@ -205,38 +212,38 @@ public class FXMLDocumentController extends AnchorPane {
 
                     //validate to make sure no repeated values
                     case 0:
-                        if (!firstNames.contains(cell.getStringCellValue())) {
-                            fname = cell.getStringCellValue();
+                        fname = cell.getStringCellValue();
+                        if (firstNames.contains(cell.getStringCellValue())) {
                             firstNames.add(fname);
                         }
                         break;
                     case 1:
+                        lname = cell.getStringCellValue();
                         if (!lastNames.contains(cell.getStringCellValue())) {
-                            lname = cell.getStringCellValue();
                             lastNames.add(lname);
                         }
                         break;
                     case 2:
+                        prac = cell.getStringCellValue();
                         if (!practices.contains(cell.getStringCellValue())) {
-                            prac = cell.getStringCellValue();
                             practices.add(prac);
                         }
                         break;
                     case 3:
+                        phone = cell.getStringCellValue();
                         if (!phones.contains(cell.getStringCellValue())) {
-                            phone = cell.getStringCellValue();
                             phones.add(phone);
                         }
                         break;
                     case 4:
+                        email = cell.getStringCellValue();
                         if (!emails.contains(cell.getStringCellValue())) {
-                            email = cell.getStringCellValue();
                             emails.add(email);
                         }
                         break;
                     case 5:
+                        address = cell.getStringCellValue();
                         if (!addresses.contains(cell.getStringCellValue())) {
-                            address = cell.getStringCellValue();
                             addresses.add(address);
                         }
                         break;
