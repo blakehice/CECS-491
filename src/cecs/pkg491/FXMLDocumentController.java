@@ -209,11 +209,9 @@ public class FXMLDocumentController extends AnchorPane {
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
                 switch (cell.getColumnIndex()) {
-
-                    //validate to make sure no repeated values
                     case 0:
                         fname = cell.getStringCellValue();
-                        if (firstNames.contains(cell.getStringCellValue())) {
+                        if (!firstNames.contains(cell.getStringCellValue())) {
                             firstNames.add(fname);
                         }
                         break;
