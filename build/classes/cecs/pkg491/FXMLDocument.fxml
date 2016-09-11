@@ -20,7 +20,7 @@
           <TableView fx:id="table" layoutY="420.0" prefHeight="281.0" prefWidth="975.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="420.0">
               <columns>
                   <TableColumn fx:id="firstNameCol" prefWidth="75.0" text="First Name" />
-                  <TableColumn fx:id="LastNameCol" prefWidth="75.0" text="Last Name" />
+                  <TableColumn fx:id="lastNameCol" prefWidth="75.0" text="Last Name" />
                   <TableColumn fx:id="practiceCol" prefWidth="75.0" text="Practice" />
                   <TableColumn fx:id="phoneCol" prefWidth="75.0" text="Phone" />
                   <TableColumn fx:id="emailCol" prefWidth="75.0" text="Email" />
