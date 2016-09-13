@@ -59,8 +59,6 @@ public class FXMLDocumentController extends AnchorPane {
     private TableColumn emailCol;
     @FXML
     private TableColumn addressCol;
-    
-    
 
     public FXMLDocumentController() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
@@ -94,6 +92,7 @@ public class FXMLDocumentController extends AnchorPane {
         sorter.add("First Name");
         sorter.add("Last Name");
         sorter.add("Practice");
+        sorter.add("Phone");
         sorter.add("Email");
         sorter.add("Address");
     }
@@ -103,23 +102,23 @@ public class FXMLDocumentController extends AnchorPane {
     }
 
     public void initializeTable() {
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<Person,String>("firstName"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<Person,String>("lastName"));
-        practiceCol.setCellValueFactory(new PropertyValueFactory<Person,String>("practice"));
-        phoneCol.setCellValueFactory(new PropertyValueFactory<Person,String>("phone"));
-        emailCol.setCellValueFactory(new PropertyValueFactory<Person,String>("email"));
-        addressCol.setCellValueFactory(new PropertyValueFactory<Person,String>("address"));
-        
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("firstName"));
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
+        practiceCol.setCellValueFactory(new PropertyValueFactory<Person, String>("practice"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<Person, String>("address"));
+
         table.setItems(people);
     }
-    
-    public void resetTable(){
+
+    public void resetTable() {
         filteredPeople.clear();
     }
-    
+
     public void updateTable() {
         resetTable();
-        
+
         int selectedIndex = sortBy.getSelectionModel().getSelectedIndex();
         String filterItem = (String) filter.getSelectionModel().getSelectedItem();
 
@@ -147,12 +146,18 @@ public class FXMLDocumentController extends AnchorPane {
                 break;
             case 3:
                 for (int i = 0; i < people.size(); i++) {
+                    if (people.get(i).getPhone().equals(filterItem)) {
+                        filteredPeople.add(people.get(i));
+                    }
+                }
+            case 4:
+                for (int i = 0; i < people.size(); i++) {
                     if (people.get(i).getEmail().equals(filterItem)) {
                         filteredPeople.add(people.get(i));
                     }
                 }
                 break;
-            case 4:
+            case 5:
                 for (int i = 0; i < people.size(); i++) {
                     if (people.get(i).getAddress().equals(filterItem)) {
                         filteredPeople.add(people.get(i));
@@ -160,12 +165,29 @@ public class FXMLDocumentController extends AnchorPane {
                 }
                 break;
         }
-        table.setItems(filteredPeople);
-        //System.out.println("fp " + filteredPeople.get(0));
+        sort();
 
     }
 
     public void sort() {
+        //get the value the user picked to sort by and click that column name
+        int column = sortBy.getSelectionModel().getSelectedIndex();
+
+        if (!filteredPeople.isEmpty()) {
+            table.setItems(filteredPeople);
+            // to use next column to sort if they are same.
+            if (column < sorter.size() - 1) {
+                column += 1;
+            }
+        } else {
+            table.setItems(people);
+
+        }
+        TableColumn c = (TableColumn) (table.getColumns().get(column));
+        c.setSortType(TableColumn.SortType.ASCENDING);
+        table.getSortOrder().add(c);
+        System.out.println(c == emailCol);
+        table.getSortOrder().remove(c);
 
     }
 
@@ -182,6 +204,7 @@ public class FXMLDocumentController extends AnchorPane {
 
             }
         }
+
     }
 
     private void initializeChoices() {
