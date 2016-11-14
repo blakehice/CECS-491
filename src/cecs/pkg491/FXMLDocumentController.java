@@ -185,7 +185,7 @@ public class FXMLDocumentController extends AnchorPane {
             break;
          case 3:
             for (int i = 0; i < people.size(); i++) {
-               if (people.get(i).getStreet().equals(filterItem)) {
+               if (people.get(i).getAddress().equals(filterItem)) {
                   filteredPeople.add(people.get(i));
                }
             }
@@ -214,7 +214,7 @@ public class FXMLDocumentController extends AnchorPane {
 
          case 7:
             for (int i = 0; i < people.size(); i++) {
-               if (people.get(i).getZip().equals(filterItem)) {
+               if (people.get(i).getZIP().equals(filterItem)) {
                   filteredPeople.add(people.get(i));
                }
             }
@@ -246,7 +246,7 @@ public class FXMLDocumentController extends AnchorPane {
 
          case 11:
             for (int i = 0; i < people.size(); i++) {
-               if (people.get(i).getMiles().equals(filterItem)) {
+               if (people.get(i).getMiles()== (Double.valueOf(filterItem))) {
                   filteredPeople.add(people.get(i));
                }
             }
@@ -254,7 +254,7 @@ public class FXMLDocumentController extends AnchorPane {
 
          case 12:
             for (int i = 0; i < people.size(); i++) {
-               if (people.get(i).getYears().equals(filterItem)) {
+               if (people.get(i).getYears()==(Integer.valueOf(filterItem))) {
                   filteredPeople.add(people.get(i));
                }
             }
@@ -262,7 +262,7 @@ public class FXMLDocumentController extends AnchorPane {
 
          case 13:
             for (int i = 0; i < people.size(); i++) {
-               if (people.get(i).getAttorneys().equals(filterItem)) {
+               if (people.get(i).getAttorneys()== Integer.valueOf(filterItem)) {
                   filteredPeople.add(people.get(i));
                }
             }
@@ -316,21 +316,30 @@ public class FXMLDocumentController extends AnchorPane {
       choices = new HashMap();
       choices.put("First Name", firstNames);
       choices.put("Last Name", lastNames);
-      choices.put("Practice", practices);
-      choices.put("Phone", phones);
-      choices.put("Email", emails);
-      choices.put("Address", addresses);
-
+      choices.put("Company",companies);
+      choices.put("Street Address",addresses);
+      choices.put("Suite",suites);
+      choices.put("City",cities);
+      choices.put("State",states);
+      choices.put("Zip",zips);
+      choices.put("Phone",phones);
+      choices.put("Practice",practices);
+      choices.put("Email",emails);
+      choices.put("Miles",miles);
+      choices.put("Years",years);
+      choices.put("Attorneys",attorneys);
    }
 
    private void readSpreadSheet() throws Exception {
-      String fileName = "test.xlsx";
+      String fileName = "B List.xlsx";
 
       FileInputStream inputStream = new FileInputStream(new File(fileName));
       Workbook workbook = new XSSFWorkbook(inputStream);
       Sheet firstSheet = workbook.getSheetAt(0);
       Iterator<Row> rowIterator = firstSheet.iterator();
-      String[] peeps = new String[14];
+      String[] peeps = new String[11];
+      int years = 0, attorneys = 0;
+      double miles = 0;
 
       while (rowIterator.hasNext()) {
          Row nextRow = rowIterator.next();
@@ -386,7 +395,8 @@ public class FXMLDocumentController extends AnchorPane {
                   break;
             }
          }
-         people.add(new Person(fname, lname, prac, phone, email, address));
+         people.add(new Person(peeps[0],peeps[1],peeps[2],peeps[3],peeps[4],peeps[5],
+         peeps[6],peeps[7],peeps[8],peeps[9],peeps[10],miles,years,attorneys));
 
       }
       workbook.close();

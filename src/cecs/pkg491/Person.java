@@ -21,12 +21,7 @@ public class Person {
     private SimpleDoubleProperty miles;
     private SimpleIntegerProperty years, Attorneys;
 
-    public Person(String fname, String lname, String practice, String phone) {
-        this.fname = new SimpleStringProperty(fname);
-        this.lname = new SimpleStringProperty(lname);
-        this.practice = new SimpleStringProperty(practice);
-        this.phone = new SimpleStringProperty(phone);
-    }
+    
 
     public Person(String fname, String lname, String company, String address, 
             String suite, String city, String state, String zipcode,String phone, 
