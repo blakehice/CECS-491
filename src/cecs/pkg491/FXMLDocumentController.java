@@ -38,9 +38,15 @@ public class FXMLDocumentController extends AnchorPane {
    private ObservableList<String> cities = FXCollections.observableArrayList();
    private ObservableList<String> zips = FXCollections.observableArrayList();
    private ObservableList<String> suites = FXCollections.observableArrayList();
+<<<<<<< HEAD
    private ObservableList<String> attorneys = FXCollections.observableArrayList();
    private ObservableList<String> years = FXCollections.observableArrayList();
    private ObservableList<String> dist = FXCollections.observableArrayList();
+=======
+   private ObservableList<Integer> attorneys = FXCollections.observableArrayList();
+   private ObservableList<Integer> years = FXCollections.observableArrayList();
+   private ObservableList<Double> miles = FXCollections.observableArrayList();
+>>>>>>> origin/master
    private ObservableList<Person> filteredPeople = FXCollections.observableArrayList();
 
    private HashMap choices;
@@ -338,9 +344,9 @@ public class FXMLDocumentController extends AnchorPane {
       Sheet firstSheet = workbook.getSheetAt(0);
       Iterator<Row> rowIterator = firstSheet.iterator();
       String[] peeps = new String[11];
-      int years = 0, attorneys = 0;
-      double miles = 0;
-
+      int time = 0, atts = 0;
+      double dist = 0;
+      rowIterator.next();
       while (rowIterator.hasNext()) {
          Row nextRow = rowIterator.next();
          Iterator<Cell> cellIterator = nextRow.cellIterator();
@@ -390,16 +396,69 @@ public class FXMLDocumentController extends AnchorPane {
                      states.add(peeps[6]);
                   }
                   break;
+<<<<<<< HEAD
                   
                   
                   
+=======
+               
+               case 7:
+                  peeps[7] = String.valueOf(cell.getNumericCellValue());
+                  if (!zips.contains(String.valueOf(cell.getNumericCellValue()))) {
+                     zips.add(peeps[7]);
+                  }
+                  break;
+               
+               case 8:
+                  peeps[8] = cell.getStringCellValue();
+                  if (!phones.contains(cell.getStringCellValue())) {
+                     phones.add(peeps[8]);
+                  }
+                  break;
+               
+               case 9:
+                  peeps[9] = cell.getStringCellValue();
+                  if (!practices.contains(cell.getStringCellValue())) {
+                     practices.add(peeps[9]);
+                  }
+                  break;
+               
+               case 10:
+                  peeps[10] = cell.getStringCellValue();
+                  if (!emails.contains(cell.getStringCellValue())) {
+                     emails.add(peeps[10]);
+                  }
+                  break;
+               
+               case 11:
+                  dist = cell.getNumericCellValue();
+                  if (!miles.contains(cell.getNumericCellValue())) {
+                     miles.add(dist);
+                  }
+                  break;
+               
+               case 12:
+                  time = (int) cell.getNumericCellValue();
+                  if (!years.contains(cell.getNumericCellValue())) {
+                     years.add(time);
+                  }
+                  break;
+               
+               case 13:
+                  atts = (int) cell.getNumericCellValue();
+                  if (!attorneys.contains(cell.getNumericCellValue())) {
+                     attorneys.add(atts);
+                  }
+                  break;
+                                 
+>>>>>>> origin/master
                default:
                   System.out.println("error");
                   break;
             }
          }
          people.add(new Person(peeps[0],peeps[1],peeps[2],peeps[3],peeps[4],peeps[5],
-         peeps[6],peeps[7],peeps[8],peeps[9],peeps[10],miles,years,attorneys));
+         peeps[6],peeps[7],peeps[8],peeps[9],peeps[10],dist,time,atts));
 
       }
       workbook.close();
