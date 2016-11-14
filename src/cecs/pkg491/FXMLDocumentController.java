@@ -38,15 +38,9 @@ public class FXMLDocumentController extends AnchorPane {
    private ObservableList<String> cities = FXCollections.observableArrayList();
    private ObservableList<String> zips = FXCollections.observableArrayList();
    private ObservableList<String> suites = FXCollections.observableArrayList();
-<<<<<<< HEAD
-   private ObservableList<String> attorneys = FXCollections.observableArrayList();
-   private ObservableList<String> years = FXCollections.observableArrayList();
-   private ObservableList<String> dist = FXCollections.observableArrayList();
-=======
    private ObservableList<Integer> attorneys = FXCollections.observableArrayList();
    private ObservableList<Integer> years = FXCollections.observableArrayList();
    private ObservableList<Double> miles = FXCollections.observableArrayList();
->>>>>>> origin/master
    private ObservableList<Person> filteredPeople = FXCollections.observableArrayList();
 
    private HashMap choices;
@@ -331,7 +325,7 @@ public class FXMLDocumentController extends AnchorPane {
       choices.put("Phone",phones);
       choices.put("Practice",practices);
       choices.put("Email",emails);
-      choices.put("Miles",dist);
+      choices.put("Miles",miles);
       choices.put("Years",years);
       choices.put("Attorneys",attorneys);
    }
@@ -396,11 +390,6 @@ public class FXMLDocumentController extends AnchorPane {
                      states.add(peeps[6]);
                   }
                   break;
-<<<<<<< HEAD
-                  
-                  
-                  
-=======
                
                case 7:
                   peeps[7] = String.valueOf(cell.getNumericCellValue());
@@ -450,8 +439,6 @@ public class FXMLDocumentController extends AnchorPane {
                      attorneys.add(atts);
                   }
                   break;
-                                 
->>>>>>> origin/master
                default:
                   System.out.println("error");
                   break;
