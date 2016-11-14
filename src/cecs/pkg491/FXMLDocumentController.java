@@ -180,7 +180,8 @@ public class FXMLDocumentController extends AnchorPane {
             }
         } else {
             table.setItems(people);
-
+            
+            
         }
         TableColumn c = (TableColumn) (table.getColumns().get(column));
         c.setSortType(TableColumn.SortType.ASCENDING);
@@ -205,13 +206,13 @@ public class FXMLDocumentController extends AnchorPane {
         }
 
     }
-
+    //items that can be searched for/ sorted by
     private void initializeChoices() {
         choices = new HashMap();
         choices.put("First Name", firstNames);
         choices.put("Last Name", lastNames);
         choices.put("Practice", practices);
-        choices.put("Phones", phones);
+        choices.put("Phone", phones);
         choices.put("Email", emails);
         choices.put("Address", addresses);
 
@@ -282,6 +283,7 @@ public class FXMLDocumentController extends AnchorPane {
     @FXML
     private void sortByChanged() {
         String selectedItem = (String) sortBy.getSelectionModel().getSelectedItem();
+        System.out.println("selected = " + selectedItem);
         updateFilter(selectedItem);
 
     }

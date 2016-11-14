@@ -23,7 +23,7 @@ public class CECS491 extends Application {
         customControl.init();
         
         stage.setScene(new Scene(customControl));
-        stage.setTitle("Attorney Lookup");
+        stage.setTitle("Client Connection");
         
         stage.show();
 

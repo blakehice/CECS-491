@@ -7,6 +7,9 @@
     <offline-allowed/>
   </information>
   <resources>
+    <jfx:javafx-runtime version="2.2+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+  </resources>
+  <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="lib/poi-3.14-20160307.jar" size="2528204" download="eager" />
     <jar href="lib/poi-ooxml-3.14-20160307.jar" size="1286511" download="eager" />
@@ -14,7 +17,7 @@
     <jar href="lib/xmlbeans-2.6.0.jar" size="2730866" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="CECS 491" >
-    <param name="requiredFXVersion" value="8.0+"/>
+    <param name="requiredFXVersion" value="2.2+"/>
   </applet-desc>
   <jfx:javafx-desc  width="800" height="600" main-class="cecs.pkg491.CECS491"  name="CECS 491" />
   <update check="always"/>
