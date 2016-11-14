@@ -29,6 +29,7 @@ public class FXMLDocumentController extends AnchorPane {
    private ObservableList<String> sorter = FXCollections.observableArrayList();
    private ObservableList<String> firstNames = FXCollections.observableArrayList();
    private ObservableList<String> lastNames = FXCollections.observableArrayList();
+   private ObservableList<String> companies = FXCollections.observableArrayList();
    private ObservableList<String> practices = FXCollections.observableArrayList();
    private ObservableList<String> phones = FXCollections.observableArrayList();
    private ObservableList<String> emails = FXCollections.observableArrayList();
@@ -329,7 +330,8 @@ public class FXMLDocumentController extends AnchorPane {
       Workbook workbook = new XSSFWorkbook(inputStream);
       Sheet firstSheet = workbook.getSheetAt(0);
       Iterator<Row> rowIterator = firstSheet.iterator();
-      String fname = "", lname = "", prac = "", phone = "", email = "", address = "";
+      String[] peeps = new String[14];
+
       while (rowIterator.hasNext()) {
          Row nextRow = rowIterator.next();
          Iterator<Cell> cellIterator = nextRow.cellIterator();
@@ -337,39 +339,46 @@ public class FXMLDocumentController extends AnchorPane {
             Cell cell = cellIterator.next();
             switch (cell.getColumnIndex()) {
                case 0:
-                  fname = cell.getStringCellValue();
+                  peeps[0] = cell.getStringCellValue();
                   if (!firstNames.contains(cell.getStringCellValue())) {
-                     firstNames.add(fname);
+                     firstNames.add(peeps[0]);
                   }
                   break;
                case 1:
-                  lname = cell.getStringCellValue();
+                  peeps[1] = cell.getStringCellValue();
                   if (!lastNames.contains(cell.getStringCellValue())) {
-                     lastNames.add(lname);
+                     lastNames.add(peeps[1]);
                   }
                   break;
                case 2:
-                  prac = cell.getStringCellValue();
-                  if (!practices.contains(cell.getStringCellValue())) {
-                     practices.add(prac);
+                  peeps[2] = cell.getStringCellValue();
+                  if (!companies.contains(cell.getStringCellValue())) {
+                     companies.add(peeps[2]);
                   }
                   break;
                case 3:
-                  phone = cell.getStringCellValue();
-                  if (!phones.contains(cell.getStringCellValue())) {
-                     phones.add(phone);
+                  peeps[3] = cell.getStringCellValue();
+                  if (!addresses.contains(cell.getStringCellValue())) {
+                     addresses.add(peeps[3]);
                   }
                   break;
                case 4:
-                  email = cell.getStringCellValue();
-                  if (!emails.contains(cell.getStringCellValue())) {
-                     emails.add(email);
+                  peeps[4] = cell.getStringCellValue();
+                  if (!suites.contains(cell.getStringCellValue())) {
+                     suites.add(peeps[4]);
                   }
                   break;
                case 5:
-                  address = cell.getStringCellValue();
-                  if (!addresses.contains(cell.getStringCellValue())) {
-                     addresses.add(address);
+                  peeps[5] = cell.getStringCellValue();
+                  if (!cities.contains(cell.getStringCellValue())) {
+                     cities.add(peeps[5]);
+                  }
+                  break;
+
+               case 6:
+                  peeps[6] = cell.getStringCellValue();
+                  if (!states.contains(cell.getStringCellValue())) {
+                     states.add(peeps[6]);
                   }
                   break;
                default:
