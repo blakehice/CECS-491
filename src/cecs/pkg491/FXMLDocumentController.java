@@ -428,14 +428,14 @@ public class FXMLDocumentController extends AnchorPane {
                
                case 12:
                   time = (int) cell.getNumericCellValue();
-                  if (!years.contains(cell.getNumericCellValue())) {
+                  if (!years.contains((int)cell.getNumericCellValue())) {
                      years.add(time);
                   }
                   break;
                
                case 13:
                   atts = (int) cell.getNumericCellValue();
-                  if (!attorneys.contains(cell.getNumericCellValue())) {
+                  if (!attorneys.contains((int)cell.getNumericCellValue())) {
                      attorneys.add(atts);
                   }
                   break;
