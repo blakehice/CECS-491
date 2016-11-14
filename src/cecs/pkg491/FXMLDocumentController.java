@@ -25,271 +25,375 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class FXMLDocumentController extends AnchorPane {
 
-    private ObservableList<Person> people = FXCollections.observableArrayList();
-    private ObservableList<String> sorter = FXCollections.observableArrayList();
-    private ObservableList<String> firstNames = FXCollections.observableArrayList();
-    private ObservableList<String> lastNames = FXCollections.observableArrayList();
-    private ObservableList<String> practices = FXCollections.observableArrayList();
-    private ObservableList<String> phones = FXCollections.observableArrayList();
-    private ObservableList<String> emails = FXCollections.observableArrayList();
-    private ObservableList<String> addresses = FXCollections.observableArrayList();
-    private ObservableList<Person> filteredPeople = FXCollections.observableArrayList();
+   private ObservableList<Person> people = FXCollections.observableArrayList();
+   private ObservableList<String> sorter = FXCollections.observableArrayList();
+   private ObservableList<String> firstNames = FXCollections.observableArrayList();
+   private ObservableList<String> lastNames = FXCollections.observableArrayList();
+   private ObservableList<String> practices = FXCollections.observableArrayList();
+   private ObservableList<String> phones = FXCollections.observableArrayList();
+   private ObservableList<String> emails = FXCollections.observableArrayList();
+   private ObservableList<String> addresses = FXCollections.observableArrayList();
+   private ObservableList<String> states = FXCollections.observableArrayList();
+   private ObservableList<String> cities = FXCollections.observableArrayList();
+   private ObservableList<String> zips = FXCollections.observableArrayList();
+   private ObservableList<String> suites = FXCollections.observableArrayList();
+   private ObservableList<String> attorneys = FXCollections.observableArrayList();
+   private ObservableList<String> years = FXCollections.observableArrayList();
+   private ObservableList<String> miles = FXCollections.observableArrayList();
+   private ObservableList<Person> filteredPeople = FXCollections.observableArrayList();
 
-    private HashMap choices;
-    @FXML
-    private ComboBox sortBy;
-    @FXML
-    private ComboBox filter;
-    @FXML
-    private TableView table;
-    @FXML
-    private ImageView maps;
-    @FXML
-    private Button searchButton;
-    @FXML
-    private TableColumn firstNameCol;
-    @FXML
-    private TableColumn lastNameCol;
-    @FXML
-    private TableColumn practiceCol;
-    @FXML
-    private TableColumn phoneCol;
-    @FXML
-    private TableColumn emailCol;
-    @FXML
-    private TableColumn addressCol;
+   private HashMap choices;
+   @FXML
+   private ComboBox sortBy;
+   @FXML
+   private ComboBox filter;
+   @FXML
+   private TableView table;
+   @FXML
+   private ImageView maps;
+   @FXML
+   private Button searchButton;
+   @FXML
+   private TableColumn firstNameCol;
+   @FXML
+   private TableColumn lastNameCol;
+   @FXML
+   private TableColumn companyCol;
+   @FXML
+   private TableColumn streetCol;
+   @FXML
+   private TableColumn suiteCol;
+   @FXML
+   private TableColumn cityCol;
+   @FXML
+   private TableColumn stateCol;
+   @FXML
+   private TableColumn zipCol;
+   @FXML
+   private TableColumn phoneCol;
+   @FXML
+   private TableColumn practiceCol;
+   @FXML
+   private TableColumn emailCol;
+   @FXML
+   private TableColumn milesCol;
+   @FXML
+   private TableColumn yearsCol;
+   @FXML
+   private TableColumn attorneyCol;
 
-    public FXMLDocumentController() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
+   public FXMLDocumentController() {
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+      fxmlLoader.setRoot(this);
+      fxmlLoader.setController(this);
 
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
+      try {
+         fxmlLoader.load();
+      } catch (IOException exception) {
+         throw new RuntimeException(exception);
+      }
+   }
 
-    //load spreadsheet gather all info from it and pass it to variables
-    public void init() {
-        try {
-            readSpreadSheet();
-        } catch (Exception e) {
-            System.out.println("error reading spread sheet");
-            e.printStackTrace();
-        }
-        initializeTable();
-        initializeChoices();
+   //load spreadsheet gather all info from it and pass it to variables
+   public void init() {
+      try {
+         readSpreadSheet();
+      } catch (Exception e) {
+         System.out.println("error reading spread sheet");
+         e.printStackTrace();
+      }
+      initializeTable();
+      initializeChoices();
 
-        initializeSorter(sorter);
-        sortBy.setItems(sorter);
-    }
+      initializeSorter(sorter);
+      sortBy.setItems(sorter);
+   }
 
-    //populate sorter with values in hashmap
-    public void initializeSorter(ObservableList<String> sorter) {
-        sorter.add("First Name");
-        sorter.add("Last Name");
-        sorter.add("Practice");
-        sorter.add("Phone");
-        sorter.add("Email");
-        sorter.add("Address");
-    }
+   //populate sorter with values in hashmap
+   public void initializeSorter(ObservableList<String> sorter) {
+      sorter.add("First Name");
+      sorter.add("Last Name");
+      sorter.add("Company");
+      sorter.add("Street Address");
+      sorter.add("Suite");
+      sorter.add("City");
+      sorter.add("State");
+      sorter.add("Zip");
+      sorter.add("Phone");
+      sorter.add("Practice");
+      sorter.add("Email");
+      sorter.add("Miles");
+      sorter.add("Years");
+      sorter.add("Attorneys");
+   }
 
-    public void initializeLists(String name, ObservableList<String> list) {
+   public void initializeLists(String name, ObservableList<String> list) {
 
-    }
+   }
 
-    public void initializeTable() {
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("firstName"));
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
-        practiceCol.setCellValueFactory(new PropertyValueFactory<Person, String>("practice"));
-        phoneCol.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
-        emailCol.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
-        addressCol.setCellValueFactory(new PropertyValueFactory<Person, String>("address"));
+   public void initializeTable() {
+      firstNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("firstName"));
+      lastNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
+      companyCol.setCellValueFactory(new PropertyValueFactory<Person, String>("company"));
+      streetCol.setCellValueFactory(new PropertyValueFactory<Person, String>("street"));
+      suiteCol.setCellValueFactory(new PropertyValueFactory<Person, String>("suite"));
+      cityCol.setCellValueFactory(new PropertyValueFactory<Person, String>("city"));
+      stateCol.setCellValueFactory(new PropertyValueFactory<Person, String>("state"));
+      zipCol.setCellValueFactory(new PropertyValueFactory<Person, String>("zip"));
+      phoneCol.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
+      practiceCol.setCellValueFactory(new PropertyValueFactory<Person, String>("practice"));
+      emailCol.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
+      milesCol.setCellValueFactory(new PropertyValueFactory<Person, String>("miles"));
+      yearsCol.setCellValueFactory(new PropertyValueFactory<Person, String>("years"));
+      attorneyCol.setCellValueFactory(new PropertyValueFactory<Person, String>("attorney"));
 
-        table.setItems(people);
-    }
+      table.setItems(people);
+   }
 
-    public void resetTable() {
-        filteredPeople.clear();
-    }
+   public void resetTable() {
+      filteredPeople.clear();
+   }
 
-    public void updateTable() {
-        resetTable();
+   public void updateTable() {
+      resetTable();
 
-        int selectedIndex = sortBy.getSelectionModel().getSelectedIndex();
-        String filterItem = (String) filter.getSelectionModel().getSelectedItem();
+      int selectedIndex = sortBy.getSelectionModel().getSelectedIndex();
+      String filterItem = (String) filter.getSelectionModel().getSelectedItem();
 
-        switch (selectedIndex) {
-            case 0:
-                for (int i = 0; i < people.size(); i++) {
-                    if (people.get(i).getFirstName().equals(filterItem)) {
-                        filteredPeople.add(people.get(i));
-                    }
-                }
-                break;
-            case 1:
-                for (int i = 0; i < people.size(); i++) {
-                    if (people.get(i).getLastName().equals(filterItem)) {
-                        filteredPeople.add(people.get(i));
-                    }
-                }
-                break;
-            case 2:
-                for (int i = 0; i < people.size(); i++) {
-                    if (people.get(i).getPractice().equals(filterItem)) {
-                        filteredPeople.add(people.get(i));
-                    }
-                }
-                break;
-            case 3:
-                for (int i = 0; i < people.size(); i++) {
-                    if (people.get(i).getPhone().equals(filterItem)) {
-                        filteredPeople.add(people.get(i));
-                    }
-                }
-            case 4:
-                for (int i = 0; i < people.size(); i++) {
-                    if (people.get(i).getEmail().equals(filterItem)) {
-                        filteredPeople.add(people.get(i));
-                    }
-                }
-                break;
-            case 5:
-                for (int i = 0; i < people.size(); i++) {
-                    if (people.get(i).getAddress().equals(filterItem)) {
-                        filteredPeople.add(people.get(i));
-                    }
-                }
-                break;
-        }
-        sort();
-
-    }
-
-    public void sort() {
-        //get the value the user picked to sort by and click that column name
-        int column = sortBy.getSelectionModel().getSelectedIndex();
-
-        if (!filteredPeople.isEmpty()) {
-            table.setItems(filteredPeople);
-            // to use next column to sort if they are same.
-            if (column < sorter.size() - 1) {
-                column += 1;
+      switch (selectedIndex) {
+         case 0:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getFirstName().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
             }
-        } else {
-            table.setItems(people);
-            
-            
-        }
-        TableColumn c = (TableColumn) (table.getColumns().get(column));
-        c.setSortType(TableColumn.SortType.ASCENDING);
-        table.getSortOrder().add(c);
-        System.out.println(c == emailCol);
-        table.getSortOrder().remove(c);
-
-    }
-
-    private void updateMap() {
-
-    }
-
-    public void updateFilter(String selected) {
-        Iterator i = choices.entrySet().iterator();
-        while (i.hasNext()) {
-            Map.Entry item = (Map.Entry) i.next();
-            if (selected.equals(item.getKey())) {
-                filter.setItems((ObservableList) item.getValue());
-
+            break;
+         case 1:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getLastName().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
             }
-        }
-
-    }
-    //items that can be searched for/ sorted by
-    private void initializeChoices() {
-        choices = new HashMap();
-        choices.put("First Name", firstNames);
-        choices.put("Last Name", lastNames);
-        choices.put("Practice", practices);
-        choices.put("Phone", phones);
-        choices.put("Email", emails);
-        choices.put("Address", addresses);
-
-    }
-
-    private void readSpreadSheet() throws Exception {
-        String fileName = "test.xlsx";
-
-        FileInputStream inputStream = new FileInputStream(new File(fileName));
-        Workbook workbook = new XSSFWorkbook(inputStream);
-        Sheet firstSheet = workbook.getSheetAt(0);
-        Iterator<Row> rowIterator = firstSheet.iterator();
-        String fname = "", lname = "", prac = "", phone = "", email = "", address = "";
-        while (rowIterator.hasNext()) {
-            Row nextRow = rowIterator.next();
-            Iterator<Cell> cellIterator = nextRow.cellIterator();
-            while (cellIterator.hasNext()) {
-                Cell cell = cellIterator.next();
-                switch (cell.getColumnIndex()) {
-                    case 0:
-                        fname = cell.getStringCellValue();
-                        if (!firstNames.contains(cell.getStringCellValue())) {
-                            firstNames.add(fname);
-                        }
-                        break;
-                    case 1:
-                        lname = cell.getStringCellValue();
-                        if (!lastNames.contains(cell.getStringCellValue())) {
-                            lastNames.add(lname);
-                        }
-                        break;
-                    case 2:
-                        prac = cell.getStringCellValue();
-                        if (!practices.contains(cell.getStringCellValue())) {
-                            practices.add(prac);
-                        }
-                        break;
-                    case 3:
-                        phone = cell.getStringCellValue();
-                        if (!phones.contains(cell.getStringCellValue())) {
-                            phones.add(phone);
-                        }
-                        break;
-                    case 4:
-                        email = cell.getStringCellValue();
-                        if (!emails.contains(cell.getStringCellValue())) {
-                            emails.add(email);
-                        }
-                        break;
-                    case 5:
-                        address = cell.getStringCellValue();
-                        if (!addresses.contains(cell.getStringCellValue())) {
-                            addresses.add(address);
-                        }
-                        break;
-                    default:
-                        System.out.println("error");
-                        break;
-                }
+            break;
+         case 2:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getCompany().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
             }
-            people.add(new Person(fname, lname, prac, phone, email, address));
+            break;
+         case 3:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getStreet().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+         case 4:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getSuite().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
+         case 5:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getCity().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
 
-        }
-        workbook.close();
-        inputStream.close();
-    }
+         case 6:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getState().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
 
-    @FXML
-    private void sortByChanged() {
-        String selectedItem = (String) sortBy.getSelectionModel().getSelectedItem();
-        System.out.println("selected = " + selectedItem);
-        updateFilter(selectedItem);
+         case 7:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getZip().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
 
-    }
+         case 8:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getPhone().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
 
-    @FXML
-    private void buttonClick() {
-        updateTable();
-    }
+         case 9:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getPractice().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
+
+         case 10:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getEmail().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
+
+         case 11:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getMiles().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
+
+         case 12:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getYears().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
+
+         case 13:
+            for (int i = 0; i < people.size(); i++) {
+               if (people.get(i).getAttorneys().equals(filterItem)) {
+                  filteredPeople.add(people.get(i));
+               }
+            }
+            break;
+      }
+      sort();
+
+   }
+
+   public void sort() {
+      //get the value the user picked to sort by and click that column name
+      int column = sortBy.getSelectionModel().getSelectedIndex();
+
+      if (!filteredPeople.isEmpty()) {
+         table.setItems(filteredPeople);
+         // to use next column to sort if they are same.
+         if (column < sorter.size() - 1) {
+            column += 1;
+         }
+      }
+      else {
+         table.setItems(people);
+
+      }
+      TableColumn c = (TableColumn) (table.getColumns().get(column));
+      c.setSortType(TableColumn.SortType.ASCENDING);
+      table.getSortOrder().add(c);
+      System.out.println(c == emailCol);
+      table.getSortOrder().remove(c);
+
+   }
+
+   private void updateMap() {
+
+   }
+
+   public void updateFilter(String selected) {
+      Iterator i = choices.entrySet().iterator();
+      while (i.hasNext()) {
+         Map.Entry item = (Map.Entry) i.next();
+         if (selected.equals(item.getKey())) {
+            filter.setItems((ObservableList) item.getValue());
+
+         }
+      }
+
+   }
+   //items that can be searched for/ sorted by
+
+   private void initializeChoices() {
+      choices = new HashMap();
+      choices.put("First Name", firstNames);
+      choices.put("Last Name", lastNames);
+      choices.put("Practice", practices);
+      choices.put("Phone", phones);
+      choices.put("Email", emails);
+      choices.put("Address", addresses);
+
+   }
+
+   private void readSpreadSheet() throws Exception {
+      String fileName = "test.xlsx";
+
+      FileInputStream inputStream = new FileInputStream(new File(fileName));
+      Workbook workbook = new XSSFWorkbook(inputStream);
+      Sheet firstSheet = workbook.getSheetAt(0);
+      Iterator<Row> rowIterator = firstSheet.iterator();
+      String fname = "", lname = "", prac = "", phone = "", email = "", address = "";
+      while (rowIterator.hasNext()) {
+         Row nextRow = rowIterator.next();
+         Iterator<Cell> cellIterator = nextRow.cellIterator();
+         while (cellIterator.hasNext()) {
+            Cell cell = cellIterator.next();
+            switch (cell.getColumnIndex()) {
+               case 0:
+                  fname = cell.getStringCellValue();
+                  if (!firstNames.contains(cell.getStringCellValue())) {
+                     firstNames.add(fname);
+                  }
+                  break;
+               case 1:
+                  lname = cell.getStringCellValue();
+                  if (!lastNames.contains(cell.getStringCellValue())) {
+                     lastNames.add(lname);
+                  }
+                  break;
+               case 2:
+                  prac = cell.getStringCellValue();
+                  if (!practices.contains(cell.getStringCellValue())) {
+                     practices.add(prac);
+                  }
+                  break;
+               case 3:
+                  phone = cell.getStringCellValue();
+                  if (!phones.contains(cell.getStringCellValue())) {
+                     phones.add(phone);
+                  }
+                  break;
+               case 4:
+                  email = cell.getStringCellValue();
+                  if (!emails.contains(cell.getStringCellValue())) {
+                     emails.add(email);
+                  }
+                  break;
+               case 5:
+                  address = cell.getStringCellValue();
+                  if (!addresses.contains(cell.getStringCellValue())) {
+                     addresses.add(address);
+                  }
+                  break;
+               default:
+                  System.out.println("error");
+                  break;
+            }
+         }
+         people.add(new Person(fname, lname, prac, phone, email, address));
+
+      }
+      workbook.close();
+      inputStream.close();
+   }
+
+   @FXML
+   private void sortByChanged() {
+      String selectedItem = (String) sortBy.getSelectionModel().getSelectedItem();
+      System.out.println("selected = " + selectedItem);
+      updateFilter(selectedItem);
+
+   }
+
+   @FXML
+   private void buttonClick() {
+      updateTable();
+   }
 }
