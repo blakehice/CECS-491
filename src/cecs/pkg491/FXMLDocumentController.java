@@ -40,7 +40,7 @@ public class FXMLDocumentController extends AnchorPane {
    private ObservableList<String> suites = FXCollections.observableArrayList();
    private ObservableList<String> attorneys = FXCollections.observableArrayList();
    private ObservableList<String> years = FXCollections.observableArrayList();
-   private ObservableList<String> miles = FXCollections.observableArrayList();
+   private ObservableList<String> dist = FXCollections.observableArrayList();
    private ObservableList<Person> filteredPeople = FXCollections.observableArrayList();
 
    private HashMap choices;
@@ -325,7 +325,7 @@ public class FXMLDocumentController extends AnchorPane {
       choices.put("Phone",phones);
       choices.put("Practice",practices);
       choices.put("Email",emails);
-      choices.put("Miles",miles);
+      choices.put("Miles",dist);
       choices.put("Years",years);
       choices.put("Attorneys",attorneys);
    }
@@ -390,6 +390,9 @@ public class FXMLDocumentController extends AnchorPane {
                      states.add(peeps[6]);
                   }
                   break;
+                  
+                  
+                  
                default:
                   System.out.println("error");
                   break;
