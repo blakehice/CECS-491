@@ -6,6 +6,8 @@
 package cecs.pkg491;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  *
@@ -14,7 +16,10 @@ import javafx.beans.property.SimpleStringProperty;
 public class Person {
 
     private final SimpleStringProperty fname, lname;
-    private SimpleStringProperty practice, phone, email, address;
+    private SimpleStringProperty practice, phone, email, streetAddress, company,
+        suite, city,zipcode,state;
+    private SimpleDoubleProperty miles;
+    private SimpleIntegerProperty years, Attorneys;
 
     public Person(String fname, String lname, String practice, String phone) {
         this.fname = new SimpleStringProperty(fname);
@@ -29,7 +34,7 @@ public class Person {
         this.practice = new SimpleStringProperty(practice);
         this.phone = new SimpleStringProperty(phone);
         this.email = new SimpleStringProperty(email);
-        this.address = new SimpleStringProperty(address);
+        this.streetAddress = new SimpleStringProperty(address);
 
     }
 
@@ -54,7 +59,7 @@ public class Person {
     }
 
     public String getAddress() {
-        return address.get();
+        return streetAddress.get();
     }
 
     public void setPractice(String practice) {
@@ -66,11 +71,11 @@ public class Person {
     }
 
     public void setAddress(String address) {
-        this.address = new SimpleStringProperty(address);
+        this.streetAddress = new SimpleStringProperty(address);
     }
 
     public String toString() {
         return fname + " " + lname + " " + practice + " " + phone + " "
-                + email + " " + address;
+                + email + " " + streetAddress;
     }
 }

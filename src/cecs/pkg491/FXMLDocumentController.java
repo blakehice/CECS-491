@@ -206,7 +206,7 @@ public class FXMLDocumentController extends AnchorPane {
         }
 
     }
-
+    //items that can be searched for/ sorted by
     private void initializeChoices() {
         choices = new HashMap();
         choices.put("First Name", firstNames);
