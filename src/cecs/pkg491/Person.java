@@ -70,7 +70,7 @@ public class Person {
        return state.get();
     }
     
-    public String getZIP() {
+    public String getZipcode() {
        return zipcode.get();
     }
     
@@ -118,7 +118,7 @@ public class Person {
         this.state = new SimpleStringProperty(state);
     }
     
-    public void setZIP(String zipcode) {
+    public void setZipcode(String zipcode) {
        this.zipcode = new SimpleStringProperty(zipcode);
     }
 
