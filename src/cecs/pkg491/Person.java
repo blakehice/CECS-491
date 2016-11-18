@@ -146,6 +146,7 @@ public class Person {
        this.Attorneys = new SimpleIntegerProperty(Attorneys);
     }
 
+    @Override
     public String toString() {
         return fname + " " + lname + " " + company + " " + address + " " +
                 suite + " " + city + " " + state + " " + zipcode + " " + phone +

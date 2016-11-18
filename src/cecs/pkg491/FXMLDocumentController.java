@@ -136,17 +136,17 @@ public class FXMLDocumentController extends AnchorPane {
       firstNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("firstName"));
       lastNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
       companyCol.setCellValueFactory(new PropertyValueFactory<Person, String>("company"));
-      streetCol.setCellValueFactory(new PropertyValueFactory<Person, String>("street"));
+      streetCol.setCellValueFactory(new PropertyValueFactory<Person, String>("address"));
       suiteCol.setCellValueFactory(new PropertyValueFactory<Person, String>("suite"));
       cityCol.setCellValueFactory(new PropertyValueFactory<Person, String>("city"));
       stateCol.setCellValueFactory(new PropertyValueFactory<Person, String>("state"));
-      zipCol.setCellValueFactory(new PropertyValueFactory<Person, String>("zip"));
+      zipCol.setCellValueFactory(new PropertyValueFactory<Person, String>("ZIP"));
       phoneCol.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
       practiceCol.setCellValueFactory(new PropertyValueFactory<Person, String>("practice"));
       emailCol.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
       milesCol.setCellValueFactory(new PropertyValueFactory<Person, String>("miles"));
       yearsCol.setCellValueFactory(new PropertyValueFactory<Person, String>("years"));
-      attorneyCol.setCellValueFactory(new PropertyValueFactory<Person, String>("attorney"));
+      attorneyCol.setCellValueFactory(new PropertyValueFactory<Person, String>("attorneys"));
 
       table.setItems(people);
    }
@@ -392,8 +392,8 @@ public class FXMLDocumentController extends AnchorPane {
                   break;
                
                case 7:
-                  peeps[7] = String.valueOf(cell.getNumericCellValue());
-                  if (!zips.contains(String.valueOf(cell.getNumericCellValue()))) {
+                  peeps[7] = String.valueOf((int)cell.getNumericCellValue());
+                  if (!zips.contains(String.valueOf((int)cell.getNumericCellValue()))) {
                      zips.add(peeps[7]);
                   }
                   break;
@@ -428,14 +428,14 @@ public class FXMLDocumentController extends AnchorPane {
                
                case 12:
                   time = (int) cell.getNumericCellValue();
-                  if (!years.contains(cell.getNumericCellValue())) {
+                  if (!years.contains((int)cell.getNumericCellValue())) {
                      years.add(time);
                   }
                   break;
                
                case 13:
                   atts = (int) cell.getNumericCellValue();
-                  if (!attorneys.contains(cell.getNumericCellValue())) {
+                  if (!attorneys.contains((int)cell.getNumericCellValue())) {
                      attorneys.add(atts);
                   }
                   break;
