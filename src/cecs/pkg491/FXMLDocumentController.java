@@ -82,6 +82,8 @@ public class FXMLDocumentController extends AnchorPane {
    private TableColumn yearsCol;
    @FXML
    private TableColumn attorneyCol;
+   @FXML
+   private TextField searchBar;
 
    public FXMLDocumentController() {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
@@ -140,6 +142,7 @@ public class FXMLDocumentController extends AnchorPane {
       suiteCol.setCellValueFactory(new PropertyValueFactory<Person, String>("suite"));
       cityCol.setCellValueFactory(new PropertyValueFactory<Person, String>("city"));
       stateCol.setCellValueFactory(new PropertyValueFactory<Person, String>("state"));
+<<<<<<< HEAD
       zipCol.setCellValueFactory(new PropertyValueFactory<Person, String>("ZIP"));
       phoneCol.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
       practiceCol.setCellValueFactory(new PropertyValueFactory<Person, String>("practice"));
@@ -147,6 +150,19 @@ public class FXMLDocumentController extends AnchorPane {
       milesCol.setCellValueFactory(new PropertyValueFactory<Person, String>("miles"));
       yearsCol.setCellValueFactory(new PropertyValueFactory<Person, String>("years"));
       attorneyCol.setCellValueFactory(new PropertyValueFactory<Person, String>("attorneys"));
+=======
+      zipCol.setCellValueFactory(new PropertyValueFactory<Person, String>("Zipcode"));
+      phoneCol.setCellValueFactory(new PropertyValueFactory<Person, String>("phone"));
+      practiceCol.setCellValueFactory(new PropertyValueFactory<Person, String>("practice"));
+      emailCol.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
+      milesCol.setCellValueFactory(new PropertyValueFactory<Person, Double>("miles"));
+      yearsCol.setCellValueFactory(new PropertyValueFactory<Person, Integer>("years"));
+      attorneyCol.setCellValueFactory(new PropertyValueFactory<Person, Integer>("Attorneys"));
+      
+      milesCol.setStyle( "-fx-alignment: CENTER-RIGHT;");
+      yearsCol.setStyle( "-fx-alignment: CENTER-RIGHT;");
+      attorneyCol.setStyle( "-fx-alignment: CENTER-RIGHT;");
+>>>>>>> 3528108f3e35bc15b2d4bf3fc4db48887725791a
 
       table.setItems(people);
    }
@@ -157,7 +173,7 @@ public class FXMLDocumentController extends AnchorPane {
 
    public void updateTable() {
       resetTable();
-
+      
       int selectedIndex = sortBy.getSelectionModel().getSelectedIndex();
       String filterItem = (String) filter.getSelectionModel().getSelectedItem();
 
@@ -214,7 +230,7 @@ public class FXMLDocumentController extends AnchorPane {
 
          case 7:
             for (int i = 0; i < people.size(); i++) {
-               if (people.get(i).getZIP().equals(filterItem)) {
+               if (people.get(i).getZipcode().equals(filterItem)) {
                   filteredPeople.add(people.get(i));
                }
             }
@@ -287,11 +303,7 @@ public class FXMLDocumentController extends AnchorPane {
          table.setItems(people);
 
       }
-      TableColumn c = (TableColumn) (table.getColumns().get(column));
-      c.setSortType(TableColumn.SortType.ASCENDING);
-      table.getSortOrder().add(c);
-      System.out.println(c == emailCol);
-      table.getSortOrder().remove(c);
+
 
    }
 
@@ -308,7 +320,7 @@ public class FXMLDocumentController extends AnchorPane {
 
          }
       }
-
+      
    }
    //items that can be searched for/ sorted by
 
@@ -392,8 +404,14 @@ public class FXMLDocumentController extends AnchorPane {
                   break;
                
                case 7:
+<<<<<<< HEAD
                   peeps[7] = String.valueOf((int)cell.getNumericCellValue());
                   if (!zips.contains(String.valueOf((int)cell.getNumericCellValue()))) {
+=======
+                  
+                  peeps[7] = String.valueOf((int)cell.getNumericCellValue());
+                  if (!zips.contains(String.valueOf(cell.getNumericCellValue()))) {
+>>>>>>> 3528108f3e35bc15b2d4bf3fc4db48887725791a
                      zips.add(peeps[7]);
                   }
                   break;
@@ -439,14 +457,15 @@ public class FXMLDocumentController extends AnchorPane {
                      attorneys.add(atts);
                   }
                   break;
-                                 
                default:
-                  System.out.println("error");
+                  System.out.println("error =" + cell.getColumnIndex());
                   break;
             }
          }
+         
          people.add(new Person(peeps[0],peeps[1],peeps[2],peeps[3],peeps[4],peeps[5],
          peeps[6],peeps[7],peeps[8],peeps[9],peeps[10],dist,time,atts));
+         
 
       }
       workbook.close();
@@ -456,7 +475,6 @@ public class FXMLDocumentController extends AnchorPane {
    @FXML
    private void sortByChanged() {
       String selectedItem = (String) sortBy.getSelectionModel().getSelectedItem();
-      System.out.println("selected = " + selectedItem);
       updateFilter(selectedItem);
 
    }
@@ -464,5 +482,17 @@ public class FXMLDocumentController extends AnchorPane {
    @FXML
    private void buttonClick() {
       updateTable();
+   }
+   
+   @FXML
+   private void refineSearch(){
+      String word = searchBar.getText();
+      System.out.println("word = " + word);
+      
+      // define a searching method that looks through all of a person's shit and 
+      // sees if anypart of the word matches that, add them to the 
+      //filtered people and set to table
+      
+      
    }
 }
